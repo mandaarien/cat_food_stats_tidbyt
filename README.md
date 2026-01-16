@@ -14,7 +14,7 @@ This Pixlet applet shows recent usage statistics from your automatic feeder (e.g
 
 ## Preview
 
-![Pixlet Preview](preview.gif)
+![Pixlet Preview](preview.gif) ![Pixlet Preview](output.gif)
 
 ## 🐱 Available Cat Pixel Art
 
