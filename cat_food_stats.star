@@ -352,14 +352,6 @@ def get_schema():
                 desc="Custom 20x16px Base64.decode() String of PNG",
                 icon="fileImage",
             ),
-            # schema.Dropdown(
-            #     id="cat_0_art",
-            #     name="First Cat Pixel Art",
-            #     desc="",
-            #     icon="brush",
-            #     default=food_types[0].value,
-            #     options=food_types,
-            # ),
         ],
     )
 
@@ -790,4 +782,5 @@ def fetch_public_image(url):
     if type(b) != "string":
         b = b()
     return b
+
 
