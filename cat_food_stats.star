@@ -1,7 +1,7 @@
 """
 Applet: Petkit Food Stats (Home Assistant)
 Summary: Petkit Food Stats for Home Assistant Petkit Integration
-Description: Shows recent usage statistics from your automatic feeder (e.g. Fresh Element Gemini). Choose which style the cat animation images should be. Needs home-assistant-petkit intergation from HACS (shoutout to @RobertD502) to work :). Optinal Helper Entity needed to show last wetfood time.
+Description: Shows recent usage statistics from your automatic feeder (e.g. Fresh Element Gemini). Choose which style the cat animation images should be. Needs home-assistant-petkit intergation from HACS (shoutout to @RobertD502) and TidbytAssistant from HACS (shoutout to @savdagod) to work :). Optinal Helper Entity needed to show last wetfood time.
 Author: mandaarien
 """
 
@@ -11,9 +11,79 @@ Helper Entity Example Setup (Home Assistant):
 # ==========================
 -----> HA Helper Last Wetfood Time <-----
 # ==========================
-Setup a new Helper Entity -> Input Daytime -> create: input_datetime.letztes_nassfutter
+Setup a new Helper Entity -> Input Daytime -> create: E.g. input_datetime.letztes_nassfutter
 
 You can setup a button on your Dashboard to press when you fed wetfood to your cats. It's a handy way to keep track and to let others know.
+
+# ==========================
+------> HA Script YAMLs (to send .star to Device) <-----
+# ==========================
+sequence:
+  - action: tidbytassistant.push
+    metadata: {}
+    data:
+      contenttype: custom
+      publishtype: foreground
+      language: de
+      customcontent: cat_food_stats/cat_food_stats.star     <-----(here: root/tidbyt/cat_food_stats/cat_food_stats.star)
+      devicename:
+        - tidbyt
+      arguments: >-
+        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;show_pixel_art=True;food_type_order=["Chicken",
+        "Salmon"];cat_0_art=0;cat_1_art=1     <----- Put the rest of the needed informations according the Schema bellow and customize
+alias: Katzenfutter_Stats
+description: "Show Cat Food Stats on Tidbyt Screen."
+
+# ==========================
+------> HA Automations YAMLs (for Triggering the Display) <-----
+# ==========================
+alias: Catfood Stats
+description: "Trigger Cat Food Stats on Tidbyt Screen."
+triggers:
+  - trigger: state
+    entity_id:
+      - sensor.trockenfutter_times_dispensed
+      - input_datetime.letztes_nassfutter     <----- Optional trigger, when Helper is set up
+    attribute: timestamp
+conditions:
+  - condition: state
+    entity_id: input_boolean.stumm
+    state:
+      - "off"
+actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.tidbyte_xxxxxxx_autodim     <----- Put name of Tidbyt Device here
+    enabled: true
+  - action: light.turn_on
+    metadata: {}
+    data:
+      brightness_pct: 100
+    target:
+      entity_id: light.tidbyte_xxxxxxx_brightness     <----- Put name of Tidbyt Device here
+  - action: script.katzenfutter_stats
+    metadata: {}
+    data: {}
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.tidbyte_xxxxxxx_autodim     <----- Put name of Tidbyt Device here
+    enabled: true
+  - action: light.turn_on
+    metadata: {}
+    data:
+      brightness_pct: 55
+    target:
+      entity_id: light.tidbyte_xxxxxxx_brightness     <----- Put name of Tidbyt Device here
+mode: single
+
 """
 
 load("encoding/base64.star", "base64")
