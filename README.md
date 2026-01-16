@@ -1,5 +1,4 @@
-# 🐈 PETKIT Cat Food Stats for Tidbyt / [Tronbyt Server](https://github.com/tronbyt/server)
-
+# 🐈 PETKIT Cat Food Stats for Tidbyt / [Tronbyt Server](https://github.com/tronbyt/
 ⚠️ Recommended way: Use the script/automation via HomeAssistant with [TidbytAssistant](https://github.com/savdagod/TidbytAssistant) for automations.
 
 😺 Needs this awesome HACS Integration to work: [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit) 
@@ -45,15 +44,18 @@ sequence:
       devicename:
         - tidbyt
       arguments: >-
-        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;show_pixel_art=True;food_type_order=["Chicken",
+        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;food_type_order=["Chicken",
         "Salmon"];cat_0_art=0;cat_1_art=1
 alias: Cat_Food_Stats_Tidbyt
 description: "Show Cat Food Stats on Tidbyt Screen."
 ```
-Most Important here ist the "arguments:" field. Here we need to fill out the fields to our needs
+Most Important here ist the `arguments:` field. Setup the values as needed. 
+
+⚠️ Important: when using the GUI of Tidbyt Push Script setup, put all values in one line!
+
 ```yaml
 arguments: >-
-        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;show_pixel_art=True;food_type_order=["Chicken",
+        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;food_type_order=["Chicken",
         "Salmon"];cat_0_art=0;cat_1_art=1
 ```
 ## Arguments
