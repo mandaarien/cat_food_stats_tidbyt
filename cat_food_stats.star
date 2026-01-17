@@ -150,19 +150,6 @@ LOCALIZED_STRINGS = {
     },
 }
 
-CAT_NAMES = {
-    "Champ": {
-        "0": "Champ",
-        "1": "Tschwibbie",
-        "2": "Boffski",
-    },
-    "Lucy": {
-        "0": "Lucy",
-        "1": "Mausi",
-        "2": "Biene",
-    },
-}
-
 # ============================
 # Default Config Values
 # ============================
@@ -782,5 +769,6 @@ def fetch_public_image(url):
     if type(b) != "string":
         b = b()
     return b
+
 
 
