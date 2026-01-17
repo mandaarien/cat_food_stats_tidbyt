@@ -44,8 +44,8 @@ sequence:
       devicename:
         - tidbyt
       arguments: >-
-        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;food_type_order=["Chicken",
-        "Salmon"];cat_0_art=0;cat_1_art=1
+        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;food_type_order=Chicken,
+        Salmon;cat_0_art=0;cat_1_art=1
 alias: Cat_Food_Stats_Tidbyt
 description: "Show Cat Food Stats on Tidbyt Screen."
 ```
@@ -55,8 +55,8 @@ Most Important here ist the `arguments:` field. Setup the values as needed.
 
 ```yaml
 arguments: >-
-        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;food_type_order=["Chicken",
-        "Salmon"];cat_0_art=0;cat_1_art=1
+        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;food_type_order=Chicken,
+        Salmon;cat_0_art=0;cat_1_art=1
 ```
 ## Arguments
 | Field | Description | Example |
@@ -68,7 +68,7 @@ arguments: >-
 | **Top Information** | Select which statistic is shown at the top of the display (Average Eating Time/Last Wetfood Time (HA Helper requierd)/Battery Status (only if installed)) | `time_avg `, `time_wet `,`battery ` |
 | **Entity Last Wetfood Helper HA (optional)** | `input_datetime` helper entity for last wet food time | `input_datetime.letztes_nassfutter` |
 | **Number of Hopper** | Number of food hoppers installed in the feeder | `2` |
-| **Food Types in Hopper** | Order of food types per hopper (JSON array) | `["Chicken", "Salmon"]` |
+| **Food Types in Hopper** | Order of food types per hopper (List) | `Chicken, Salmon` |
 | **First Cat Pixel Art** | Pixel art style for the first cat (Custom/Style 1/.../11) | `custom`,`0`,`1`...`11` |
 | **Second Cat Pixel Art** | Pixel art style for the second cat (Custom/Style 1/.../11) | `custom`,`0`,`1`...`11` |
 | **First Cat Custom Art** | Base64-encoded PNG (20×16 px), used when “custom” is selected | `iVBORw0KGgoAAAANSUhEUgAA...` |
