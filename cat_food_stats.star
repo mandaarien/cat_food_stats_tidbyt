@@ -1,7 +1,7 @@
 """
 Applet: Petkit Food Stats (Home Assistant)
 Summary: Petkit Food Stats for Home Assistant Petkit Integration
-Description: Shows recent usage statistics from your automatic feeder (e.g. Fresh Element Gemini). Choose which style the cat animation images should be. Needs home-assistant-petkit intergation from HACS (shoutout to @RobertD502) and TidbytAssistant from HACS (shoutout to @savdagod) to work :). Optinal Helper Entity needed to show last wetfood time.
+Description: Shows recent usage statistics from your automatic feeder (e.g. Fresh Element Gemini). Choose which style the cat animation images should be. Needs home-assistant-petkit intergation from HACS (@RobertD502) and TidbytAssistant from HACS (@savdagod) to work :). Optinal Helper Entity needed to show last wetfood time.
 Author: mandaarien
 """
 
@@ -307,9 +307,9 @@ def get_schema():
             schema.Text(
                 id="food_type_order",
                 name="Food Types in Hopper",
-                desc="Order of catfood in the hopper. E.g. [\"Chicken\", \"Salmon\"]",
+                desc="Order of catfood in the hopper. E.g. 'Chicken, Salmon'",
                 icon="list",
-                default='["Chicken", "Salmon"]',
+                default='Chicken, Salmon',
             ),
             schema.Dropdown(
                 id="cat_0_art",
@@ -357,8 +357,7 @@ def main(config):
     entity_last_wetfood_helper_name = config.get(
         "entity_last_wetfood_helper_name", "letztes_nassfutter")
     number_of_hopper = int(config.get("number_of_hopper", 2))
-    food_type_order = json.decode(config.get(
-        "food_type_order", '["Chicken", "Salmon"]'))
+    food_type_order = config.get("food_type_order", 'Chicken, Salmon')
 
     # Pixel Art Inputs
     cat_0_art = config.get("cat_0_art", "1")
@@ -377,11 +376,9 @@ def main(config):
                             render.Row(
                                 expanded=True,
                                 children=[
-
                                     # Render Happy Cats Animation
                                     render_happy_cats(
                                         cat_0_art, cat_1_art, cat_0_custom_art, cat_1_custom_art),
-
                                     # Render Stats
                                     render.Padding(
                                         pad=(0, 0, 0, 0),
@@ -439,7 +436,6 @@ def main(config):
 # Render Animation Functions
 # ======================================
 def render_happy_cats(cat_0_art, cat_1_art, cat_0_custom_art, cat_1_custom_art):
-
     return render.Stack(
         children=[
             render.Column(
@@ -494,7 +490,6 @@ def render_happy_cats(cat_0_art, cat_1_art, cat_0_custom_art, cat_1_custom_art):
 
 def render_happy(duration):
     main_animation = []
-
     for i in range(duration):
         main_animation.append(render.Image(
             src=base64.decode(HAPPY["%d.png" % 0])))
@@ -507,7 +502,6 @@ def render_happy(duration):
     for i in range(duration):
         main_animation.append(render.Image(
             src=base64.decode(HAPPY["%d.png" % 1])))
-
     return render.Animation(
         children=main_animation
     )
@@ -522,7 +516,6 @@ def index_of_cat_order(cat_order, name):
 
 def get_cat_pixel_art_cat(cat_order, name, cat_0_art, cat_1_art, cat_0_custom_art, cat_1_custom_art):
     index = index_of_cat_order(cat_order, name)
-
     if index == 0:
         if cat_0_art == "custom":
             return cat_0_custom_art
@@ -540,22 +533,18 @@ def get_cat_pixel_art_cat(cat_order, name, cat_0_art, cat_1_art, cat_0_custom_ar
 def render_feeding_stats(server_address, token, lang,  entity_feeder_name, entity_last_wetfood_helper_name, top_info_line):
     top_info_line_string = ""
     top_info_line_string_lenght = 5
-
     if top_info_line == "time_wet":
         top_info_line_string = get_last_wetfood(
             server_address, token, entity_last_wetfood_helper_name)
         top_info_line_string_lenght = 5
-
     if top_info_line == "time_avg":
         top_info_line_string = get_average_eating_time(
             get_average_eating_time_entity_name(entity_feeder_name), server_address, token) + "s"
         top_info_line_string_lenght = 7
-
     if top_info_line == "battery":
         top_info_line_string = get_battery_status(
             get_battery_status_entity_name(entity_feeder_name), server_address, token)
         top_info_line_string_lenght = 6
-
     return render.Padding(
         pad=(1, 0, 0, 0),
         child=render.Column(
@@ -592,12 +581,13 @@ def render_feeding_stats(server_address, token, lang,  entity_feeder_name, entit
 
 def render_Hopper_Stats_List(server_address, token, lang,  entity_feeder_name, number_of_hopper, food_type_order):
     hopper_Stats_List = []
+    food_type_order_list = get_food_order_list(food_type_order)
     for i in range(number_of_hopper):
         hopper_level_entity_name = get_hopper_level_identy_name_list(
             entity_feeder_name, number_of_hopper)
         food_level_state = get_hopper_level_state(
             hopper_level_entity_name[i], server_address, token)
-        food_type = cut_to_fixed_string_lenght(food_type_order[i-1], 9)
+        food_type = cut_to_fixed_string_lenght(food_type_order_list[i-1], 9)
         hopper_Stats_List.append(
             render.Padding(
                 pad=(1, 0, 0, 0),
@@ -673,6 +663,15 @@ def get_battery_status(battery_status_entity_name, server_address, token):
                             battery_status_entity_name, "err")
     return state
 
+# List Helper
+def get_food_order_list(food_type_order):
+    food_type_order_list = []
+    string_raw = food_type_order
+    if string_raw:
+        for block in string_raw.split(","):
+            food_type_order_list.append(block.strip())
+    return food_type_order_list
+
 
 # ======================================
 # Global Helper
@@ -710,27 +709,21 @@ def http_body(resp):
 def ha_get_state_json(server_address, token, entity_id):
     base = normalize_server(server_address)
     url = "%s/api/states/%s" % (base, entity_id)
-
-    # print("URL State JSON: ", url)
     r = http.get(
         url,
         headers={"Authorization": "Bearer %s" % token},
     )
-
     raw = http_body(r)
-
     # Check: must be JSON
     if raw == "" or raw[0] != "{":
         # optional Debug:
         print("HA response not JSON:", raw)
         return {}
-
     return json.decode(raw)
 
 
 def ha_state_float(server_address, token, entity_id, default):
     j = ha_get_state_json(server_address, token, entity_id)
-    # print("ha_state_float json:", j)
     s = j.get("state", None)
     if s in [None, "unknown", "unavailable", ""]:
         return default
@@ -753,9 +746,7 @@ def get_entity_picture_url(server_address, token, entity_id):
     pic = attrs.get("entity_picture", None)
     if pic in [None, ""]:
         return None
-
     base = normalize_server(server_address)
-
     if pic.startswith("http://") or pic.startswith("https://"):
         return pic
     return base + pic
@@ -764,11 +755,9 @@ def get_entity_picture_url(server_address, token, entity_id):
 def fetch_public_image(url):
     r = http.get(url)
     print("http fetch image status:", r.status_code)
-
     b = r.body
     if type(b) != "string":
         b = b()
     return b
-
 
 
