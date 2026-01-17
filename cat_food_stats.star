@@ -29,8 +29,8 @@ sequence:
       devicename:
         - tidbyt
       arguments: >-
-        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;show_pixel_art=True;food_type_order=["Chicken",
-        "Salmon"];cat_0_art=0;cat_1_art=1     <----- Put the rest of the needed informations according the Schema bellow and customize
+        server_address_input=-->PUT YOUR HA SERVER HERE<--/;server_api_key=-->PUT YOUR HA API KEY HERE<--;lang=de;entity_feeder_name=trockenfutter;top_info_line=time_wet;entity_last_wetfood_helper_name=letztes_nassfutter;number_of_hopper=2;show_pixel_art=True;food_type_order=Chicken,
+        Salmon;cat_0_art=0;cat_1_art=1     <----- Put the rest of the needed informations according the Schema bellow and customize
 alias: Katzenfutter_Stats
 description: "Show Cat Food Stats on Tidbyt Screen."
 
@@ -759,5 +759,6 @@ def fetch_public_image(url):
     if type(b) != "string":
         b = b()
     return b
+
 
 
