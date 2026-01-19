@@ -1,7 +1,7 @@
-# 🐈 PETKIT Cat Food Stats for Tidbyt / [Tronbyt Server](https://github.com/tronbyt/
-⚠️ Recommended way: Use the script/automation via HomeAssistant with [TidbytAssistant](https://github.com/savdagod/TidbytAssistant) for automations.
+# 🐈 PETKIT Cat Food Stats for Tidbyt / [Tronbyt Server](https://github.com/tronbyt/)
+⚠️ Recommended to use the script/automation via HomeAssistant with [TidbytAssistant](https://github.com/savdagod/TidbytAssistant) for automations and display notifications.
 
-😺 Needs this awesome HACS Integration to work: [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit) 
+😺 Needs this Petkit HACS Integration to work: [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit) 
     Optional: Setup Helper Entity in HA for better usage
 
 This Pixlet applet shows recent usage statistics from your automatic feeder (e.g. Fresh Element Gemini):
@@ -40,7 +40,7 @@ sequence:
       contenttype: custom
       publishtype: foreground
       language: de
-      customcontent: cat_food_stats/cat_food_stats.star     <-----(here: root/tidbyt/cat_food_stats/cat_food_stats.star)
+      customcontent: cat_food_stats/cat_food_stats.star     <-----(E.g. here: /tidbyt/cat_food_stats/cat_food_stats.star)
       devicename:
         - tidbyt
       arguments: >-
@@ -51,7 +51,7 @@ description: "Show Cat Food Stats on Tidbyt Screen."
 ```
 Most Important here ist the `arguments:` field. Setup the values as needed. 
 
-⚠️ Important: when using the GUI of Tidbyt Push Script setup, put all values in one line!
+⚠️ Important: when using the GUI of Tidbyt Push Script setup, put all `key=value;` pairs in one line!
 
 ```yaml
 arguments: >-
@@ -88,7 +88,7 @@ description: "Trigger Cat Food Stats on Tidbyt Screen."
 triggers:
   - trigger: state
     entity_id:
-      - sensor.trockenfutter_times_dispensed
+      - sensor.xxxxxxx_times_dispensed     <----- Put name of Feeder Device here (e.g. trockenfutter)
       - input_datetime.letztes_nassfutter     <----- Optional trigger, when Helper is set up
     attribute: timestamp
 conditions:
