@@ -81,7 +81,7 @@ arguments: >-
 - JSON fields must use valid JSON syntax.
   
 ## 4. Setup Automation in HA to trigger Display (YAML)
-This exmaple automation wakes up and brightens the Tidbyt device up for 15 seconds, then runs the script and turns auto dim on and brightness down. 
+This exmaple automation triggers, when the number of total feedings times changes. It wakes up and brightens the Tidbyt device up for 15 seconds, then runs the script and turns auto dim on and brightness down afterwards.
 ```YAML
 alias: Catfood Stats
 description: "Trigger Cat Food Stats on Tidbyt Screen."
