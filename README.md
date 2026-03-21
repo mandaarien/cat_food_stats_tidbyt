@@ -31,7 +31,7 @@ Setup a new Helper Entity -> Input Daytime -> create: E.g. `input_datetime.letzt
 ## 2. Setup [TidbytAssistant](https://github.com/savdagod/TidbytAssistant) from HACS
 --> Easy way to send custom .star to yout Tidbyt Device locally. Install TidbytAssistan HACS. Follow Setup Instructions there. 
 ## 3. Setup Script in HA to run cat_food_stats.star (YAML)
-Exampe Scipt
+Example Script
 ```yaml
 sequence:
   - action: tidbytassistant.push
